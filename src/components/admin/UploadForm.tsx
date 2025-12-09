@@ -93,12 +93,12 @@ export function UploadForm() {
       animate={{ opacity: 1, y: 0 }}
       ref={formRef}
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6"
+      className="flex flex-col gap-4 sm:gap-6"
     >
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {/* Category Selection */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-slate-900 uppercase tracking-wider">
+          <label className="block text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider">
             {t('mainCode')}
           </label>
           <select
@@ -106,7 +106,7 @@ export function UploadForm() {
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
             required
-            className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 hover:border-slate-300"
+            className="w-full rounded-xl border-2 border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3.5 text-xs sm:text-sm font-medium text-slate-900 outline-none transition-all focus:border-indigo-500 focus:ring-2 sm:focus:ring-4 focus:ring-indigo-100 hover:border-slate-300"
           >
             <option value="">{t('selectCategory')}</option>
             {documentCategories.map((category) => (
@@ -119,14 +119,14 @@ export function UploadForm() {
 
         {/* Subcategory Selection */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-slate-900 uppercase tracking-wider">
+          <label className="block text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider">
             {t('subCode')}
           </label>
           <select
             name="subcategory"
             required
             disabled={!selectedCategory || availableSubcategories.length === 0}
-            className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 hover:border-slate-300 disabled:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-xl border-2 border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3.5 text-xs sm:text-sm font-medium text-slate-900 outline-none transition-all focus:border-indigo-500 focus:ring-2 sm:focus:ring-4 focus:ring-indigo-100 hover:border-slate-300 disabled:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <option value="">{t('selectSubcategory')}</option>
             {availableSubcategories.map((subcategory) => (
@@ -140,7 +140,7 @@ export function UploadForm() {
 
       {/* Year Input */}
       <div className="space-y-2">
-        <label className="block text-sm font-bold text-slate-900 uppercase tracking-wider">
+        <label className="block text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider">
           {t('year')}
         </label>
         <input
@@ -148,29 +148,24 @@ export function UploadForm() {
           name="year"
           placeholder="2017"
           required
-          className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 hover:border-slate-300"
+          className="w-full rounded-xl border-2 border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3.5 text-xs sm:text-sm font-medium text-slate-900 outline-none transition-all focus:border-indigo-500 focus:ring-2 sm:focus:ring-4 focus:ring-indigo-100 hover:border-slate-300"
         />
       </div>
 
       {/* File Upload */}
       <div className="space-y-2">
-        <label className="block text-sm font-bold text-slate-900 uppercase tracking-wider">
+        <label className="block text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider">
           {t('documents')}
         </label>
-        <div className="relative group">
+        <div className="relative">
           <input
             type="file"
             name="files"
             accept=".pdf,.doc,.docx,.xlsx,.xls,.odt"
             multiple
             required
-            className="w-full rounded-xl border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-white px-4 py-12 text-sm text-slate-700 outline-none transition-all hover:border-indigo-400 hover:bg-indigo-50/50 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 text-center cursor-pointer file:mr-4 file:py-2 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 file:transition-all"
+            className="w-full rounded-xl border-2 border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3.5 text-xs sm:text-sm text-slate-700 outline-none transition-all focus:border-indigo-500 focus:ring-2 sm:focus:ring-4 focus:ring-indigo-100 hover:border-slate-300 cursor-pointer file:mr-3 sm:file:mr-4 file:py-2 sm:file:py-2.5 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-bold file:bg-gradient-to-r file:from-indigo-600 file:to-purple-600 file:text-white hover:file:from-indigo-700 hover:file:to-purple-700 file:transition-all file:flex-shrink-0"
           />
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 text-slate-400">
-            <HiDocumentArrowUp className="h-12 w-12 group-hover:text-indigo-600 transition-colors" />
-            <p className="text-sm font-medium">{t('dragAndDrop')}</p>
-            <p className="text-xs">{t('multipleFilesAllowed')}</p>
-          </div>
         </div>
       </div>
 
@@ -180,11 +175,11 @@ export function UploadForm() {
         whileTap={{ scale: 0.98 }}
         type="submit"
         disabled={isUploading}
-        className="group relative overflow-hidden inline-flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-4 text-base font-bold text-white shadow-lg transition-all hover:from-indigo-700 hover:to-purple-700 hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+        className="group relative overflow-hidden inline-flex w-full items-center justify-center gap-2 sm:gap-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-bold text-white shadow-lg transition-all hover:from-indigo-700 hover:to-purple-700 hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-        <HiDocumentArrowUp className="h-5 w-5 relative z-10" />
-        <span className="relative z-10">
+        <HiDocumentArrowUp className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
+        <span className="relative z-10 text-sm sm:text-base">
           {isUploading ? t('uploading') : t('upload')}
         </span>
       </motion.button>
@@ -194,16 +189,16 @@ export function UploadForm() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`inline-flex items-center gap-3 rounded-xl px-5 py-3.5 text-sm font-semibold ${
+          className={`inline-flex items-center gap-2 sm:gap-3 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 text-xs sm:text-sm font-semibold ${
             status.includes(t('successfully')) || status.includes("success")
               ? "bg-emerald-50 text-emerald-700 border-2 border-emerald-200"
               : "bg-red-50 text-red-700 border-2 border-red-200"
           }`}
         >
           {status.includes(t('successfully')) || status.includes("success") ? (
-            <HiCheckCircle className="h-5 w-5" />
+            <HiCheckCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
           ) : (
-            <HiXCircle className="h-5 w-5" />
+            <HiXCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
           )}
           {status}
         </motion.div>

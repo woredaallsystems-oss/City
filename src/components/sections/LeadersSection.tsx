@@ -130,10 +130,9 @@ export function LeadersSection({ principal, categories }: LeaderSectionProps) {
       {/* Members Section */}
       <section id="members" className="space-y-20 scroll-mt-32">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold text-slate-900">{t('leaders.membersStructure')}</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+          <h2 className="text-4xl font-bold text-slate-900">
             {t('leaders.membersSubtitle')}
-          </p>
+          </h2>
         </div>
 
         <div className="space-y-16">
