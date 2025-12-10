@@ -13,11 +13,6 @@ export const metadata: Metadata = {
   title: "የብልጽግና ፓርቲ የኢንስፔክሽንና የሥነምግባር ኮሚሽን",
   description:
     "Government-grade portal with leadership, document access, and temporary QR flows.",
-  icons: {
-    icon: "/logo.jpg",
-    shortcut: "/logo.jpg",
-    apple: "/logo.jpg",
-  },
 };
 
 export default async function RootLayout({
