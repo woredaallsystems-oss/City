@@ -35,11 +35,7 @@ export async function createAppointmentRequest(args: {
       return { appointment: null, error: "Invalid Ethiopian date format" };
     }
 
-    const gregorianDate = ethiopianToGregorian(
-      ethDate.year,
-      ethDate.month,
-      ethDate.day
-    );
+    const gregorianDate = ethiopianToGregorian(ethDate);
 
     const supabase = getSupabaseAdminClient();
 
@@ -146,11 +142,7 @@ export async function updateAppointmentStatus(args: {
     if (args.rescheduledDateEthiopian) {
       const ethDate = parseEthiopianDate(args.rescheduledDateEthiopian);
       if (ethDate) {
-        const gregorianDate = ethiopianToGregorian(
-          ethDate.year,
-          ethDate.month,
-          ethDate.day
-        );
+        const gregorianDate = ethiopianToGregorian(ethDate);
         rescheduledDateGregorian = gregorianDate.toISOString().split("T")[0];
       }
     }
