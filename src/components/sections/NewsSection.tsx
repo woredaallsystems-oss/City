@@ -36,6 +36,7 @@ export async function NewsSection() {
                     alt="Background"
                     fill
                     className="object-cover object-center opacity-30"
+                    sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/80 to-white/95" />
             </div>
@@ -105,6 +106,7 @@ export async function NewsSection() {
                                                     alt={title}
                                                     fill
                                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    sizes="(max-width: 768px) 85vw, (max-width: 1024px) 45vw, 33vw"
                                                 />
                                             );
                                         }

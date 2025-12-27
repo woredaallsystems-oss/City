@@ -1,7 +1,8 @@
 
 import { getSupabaseServerClient, getCurrentUserWoredaId } from "./supabaseServer";
 import { publicEnv, requiredEnv } from "./env";
-import type { NewsRecord } from "@/types";
+import type { NewsRecord, NewsPhotoRecord } from "@/types";
+import { getNewsPhotos } from "./news-actions";
 
 /**
  * Fetch published news for public display
@@ -79,7 +80,15 @@ export async function getNews(limit = 6): Promise<NewsRecord[]> {
     }).catch(() => { });
     // #endregion
 
-    return (data as NewsRecord[]) || [];
+    // Fetch photos for each news item
+    const newsWithPhotos = await Promise.all(
+        (data || []).map(async (item: NewsRecord) => {
+            const photos = await getNewsPhotos(item.id);
+            return { ...item, photos };
+        })
+    );
+
+    return newsWithPhotos as NewsRecord[];
 }
 
 /**
@@ -104,7 +113,15 @@ export async function getAllNews(): Promise<NewsRecord[]> {
         return [];
     }
 
-    return (data as NewsRecord[]) || [];
+    // Fetch photos for each news item
+    const newsWithPhotos = await Promise.all(
+        (data || []).map(async (item: NewsRecord) => {
+            const photos = await getNewsPhotos(item.id);
+            return { ...item, photos };
+        })
+    );
+
+    return newsWithPhotos as NewsRecord[];
 }
 
 /**
@@ -125,5 +142,8 @@ export async function getNewsItem(id: string): Promise<NewsRecord | null> {
         return null;
     }
 
-    return (data as NewsRecord) || null;
+    // Fetch photos for this news item
+    const photos = await getNewsPhotos(id);
+
+    return { ...(data as NewsRecord), photos } || null;
 }

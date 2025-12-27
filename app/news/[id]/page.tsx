@@ -98,7 +98,31 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
                                 fill
                                 className="object-cover"
                                 priority
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 896px"
                             />
+                        </div>
+                    )}
+
+                    {/* Photo Gallery */}
+                    {newsItem.photos && newsItem.photos.length > 0 && (
+                        <div className="mb-12 space-y-4">
+                            <h2 className="text-2xl font-bold text-slate-900">Photos</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {newsItem.photos.map((photo) => (
+                                    <div
+                                        key={photo.id}
+                                        className="relative aspect-square rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow group"
+                                    >
+                                        <Image
+                                            src={photo.image_url}
+                                            alt={`${newsItem.title} - Photo ${photo.sort_order + 1}`}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
 

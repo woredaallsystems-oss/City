@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { HiHome, HiQrCode, HiDocumentArrowUp, HiDocumentText, HiLockClosed, HiArrowRightOnRectangle, HiUserCircle, HiChartBar, HiCalendar, HiNewspaper } from "react-icons/hi2";
+import { HiHome, HiQrCode, HiDocumentArrowUp, HiDocumentText, HiLockClosed, HiArrowRightOnRectangle, HiUserCircle, HiChartBar, HiCalendar, HiNewspaper, HiUsers } from "react-icons/hi2";
 import { useTranslations } from 'next-intl';
 import { motion } from "framer-motion";
 import { supabaseBrowser } from "@/lib/supabaseBrowser";
@@ -12,6 +12,7 @@ import { useState } from "react";
 const navItems = [
   { href: "/admin/dashboard", label: "dashboard", icon: HiChartBar },
   { href: "/admin/news", label: "news", icon: HiNewspaper },
+  { href: "/admin/leaders", label: "leadersManagement", icon: HiUsers },
   { href: "/admin/upload", label: "upload", icon: HiDocumentArrowUp },
   { href: "/admin/documents", label: "documents", icon: HiDocumentText },
   { href: "/admin/qr-generator", label: "generateQR", icon: HiQrCode },

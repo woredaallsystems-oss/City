@@ -24,7 +24,8 @@ export const publicEnv = {
 };
 
 export const requiredEnv = {
-  SUPABASE_URL: () => ensureEnv("SUPABASE_URL"),
+  // Default to the same URL as NEXT_PUBLIC_SUPABASE_URL for consistency
+  SUPABASE_URL: () => process.env.SUPABASE_URL ?? publicEnv.NEXT_PUBLIC_SUPABASE_URL,
   SUPABASE_SERVICE_ROLE_KEY: () => ensureEnv("SUPABASE_SERVICE_ROLE_KEY"),
   CLOUDFLARE_R2_UPLOAD_URL: () => ensureEnv("CLOUDFLARE_R2_UPLOAD_URL"),
   CLOUDFLARE_R2_PUBLIC_URL: () => ensureEnv("CLOUDFLARE_R2_PUBLIC_URL"),

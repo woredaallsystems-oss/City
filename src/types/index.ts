@@ -1,16 +1,6 @@
 import type { StaticImageData } from "next/image";
 
-export interface LeaderProfile {
-  name: string;
-  title: string;
-  photo: string | StaticImageData;
-}
 
-export interface LeaderCategory {
-  id: string;
-  title: string;
-  leaders: LeaderProfile[];
-}
 
 export interface DocumentSubcategory {
   id: string;
@@ -75,6 +65,16 @@ export interface AppointmentRecord {
   updated_at: string;
 }
 
+export interface NewsPhotoRecord {
+  id: string;
+  news_id: string;
+  woreda_id: string;
+  image_url: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface NewsRecord {
   id: string;
   woreda_id: string;
@@ -91,6 +91,26 @@ export interface NewsRecord {
   youtube_url?: string;
   published: boolean;
   published_at?: string;
+  created_at: string;
+  updated_at: string;
+  photos?: NewsPhotoRecord[];
+}
+
+export interface LeaderRecord {
+  id: string;
+  woreda_id: string;
+  name: string;
+  name_am?: string;
+  name_or?: string;
+  title: string;
+  title_am?: string;
+  title_or?: string;
+  photo_url?: string;
+  category: 'principal' | 'commission-committee' | 'management' | 'work-leadership' | 'monitoring-committees';
+  sort_order: number;
+  speech?: string;
+  speech_am?: string;
+  speech_or?: string;
   created_at: string;
   updated_at: string;
 }

@@ -2,16 +2,20 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { LeaderCategory } from "@/types";
+import { LeaderRecord } from "@/types";
 import { HiUser, HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface CommissionMembersProps {
-    categories: LeaderCategory[];
+    categories: {
+        id: string;
+        leaders: LeaderRecord[];
+    }[];
 }
 
 export function CommissionMembers({ categories }: CommissionMembersProps) {
     const t = useTranslations();
+    const locale = useLocale();
 
     // Map category IDs to translation keys
     const getCategoryTitle = (categoryId: string) => {
@@ -21,38 +25,20 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
             "work-leadership": t('leaders.workLeadership'),
             "monitoring-committees": t('leaders.monitoringCommittees'),
         };
-        return titleMap[categoryId] || categories.find(c => c.id === categoryId)?.title || '';
+        return titleMap[categoryId] || categoryId;
     };
 
-    // Map member titles to translation keys
-    const getMemberTitle = (title: string) => {
-        // Map based on key phrases in the title
-        if (title.includes('ኮሚቴ ሰብሳቢ') && !title.includes('ኮሚሽን ኮሚቴ')) {
-            return t('leaders.titleCommissionChair');
-        }
-        if (title.includes('ሰብሳቢ') && title.includes('ፅ/ቤት')) {
-            return t('leaders.titleOfficeChair');
-        }
-        if (title.includes('ፀሀፊና') || title.includes('Secretary')) {
-            return t('leaders.titleSecretary');
-        }
-        if (title.includes('የኢንስፔክሽን ዘርፍ') || title.includes('Inspection Sector')) {
-            return t('leaders.titleInspectionHead');
-        }
-        if (title.includes('ም/ሰብሳቢ') || title.includes('Deputy')) {
-            return t('leaders.titleDeputyChair');
-        }
-        if (title.includes('የተቋም ግንባታ') || title.includes('Institution Building')) {
-            return t('leaders.titleInstitutionChair');
-        }
-        if (title.includes('የአካላትና') || title.includes('Bodies and Members Rights')) {
-            return t('leaders.titleRightsChair');
-        }
-        if (title.includes('ፖርቲ ገንዘብ') || title.includes('Party Finance')) {
-            return t('leaders.titleFinanceChair');
-        }
-        // Fallback to original title if no match
-        return title;
+    // Localization helpers
+    const getName = (leader: LeaderRecord) => {
+        if (locale === 'am') return leader.name_am || leader.name;
+        if (locale === 'or') return leader.name_or || leader.name;
+        return leader.name;
+    };
+
+    const getTitle = (leader: LeaderRecord) => {
+        if (locale === 'am') return leader.title_am || leader.title;
+        if (locale === 'or') return leader.title_or || leader.title;
+        return leader.title;
     };
 
     const scrollSlider = (id: string, direction: "left" | "right") => {
@@ -65,6 +51,9 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
             });
         }
     };
+
+    // Filter out empty categories
+    const activeCategories = categories.filter(c => c.leaders.length > 0);
 
     return (
         <section id="members" className="relative py-12 md:py-24 space-y-20 scroll-mt-32 overflow-hidden">
@@ -86,7 +75,7 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
                 </div>
 
                 <div className="space-y-16">
-                    {categories.map((category, catIdx) => (
+                    {activeCategories.map((category, catIdx) => (
                         <div key={category.id} className="space-y-6">
                             <div className="flex items-center gap-4 px-4">
                                 <div className="h-10 w-1 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full" />
@@ -123,7 +112,7 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
                                 >
                                     {category.leaders.map((leader, idx) => (
                                         <motion.div
-                                            key={leader.name}
+                                            key={leader.id}
                                             initial={{ opacity: 0, x: 20 }}
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
@@ -132,10 +121,10 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
                                         >
                                             <div className="group/card relative overflow-hidden rounded-3xl bg-white p-4 shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl border border-slate-100 h-full">
                                                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-slate-100 mb-4">
-                                                    {leader.photo ? (
+                                                    {leader.photo_url ? (
                                                         <Image
-                                                            src={leader.photo}
-                                                            alt={leader.name}
+                                                            src={leader.photo_url}
+                                                            alt={getName(leader)}
                                                             fill
                                                             className="object-cover transition-transform duration-500 group-hover/card:scale-110"
                                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -149,10 +138,10 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
                                                 </div>
                                                 <div className="text-center">
                                                     <h4 className="text-lg font-bold text-slate-900 group-hover/card:text-blue-600 transition-colors">
-                                                        {leader.name}
+                                                        {getName(leader)}
                                                     </h4>
                                                     <p className="text-sm font-medium text-slate-500">
-                                                        {getMemberTitle(leader.title)}
+                                                        {getTitle(leader)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -171,3 +160,4 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
         </section>
     );
 }
+

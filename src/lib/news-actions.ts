@@ -1,7 +1,7 @@
 "use server";
 
 import { getSupabaseServerClient, getCurrentUserWoredaId } from "./supabaseServer";
-import type { NewsRecord } from "@/types";
+import type { NewsRecord, NewsPhotoRecord } from "@/types";
 
 /**
  * Create a new news item
@@ -19,6 +19,7 @@ export async function createNewsItem(args: {
     cover_image_url?: string;
     youtube_url?: string;
     published: boolean;
+    photoUrls?: string[];
 }): Promise<NewsRecord | null> {
     const supabase = await getSupabaseServerClient();
     const woredaId = await getCurrentUserWoredaId();
@@ -49,6 +50,11 @@ export async function createNewsItem(args: {
         throw new Error(error.message);
     }
 
+    // Save photos if provided
+    if (args.photoUrls && args.photoUrls.length > 0) {
+        await saveNewsPhotos(data.id, args.photoUrls);
+    }
+
     return (data as NewsRecord) || null;
 }
 
@@ -70,6 +76,7 @@ export async function updateNewsItem(
         cover_image_url?: string;
         youtube_url?: string;
         published?: boolean;
+        photoUrls?: string[];
     }
 ): Promise<NewsRecord | null> {
     const supabase = await getSupabaseServerClient();
@@ -108,6 +115,11 @@ export async function updateNewsItem(
     if (error) {
         console.error("Error updating news:", error);
         throw new Error(error.message);
+    }
+
+    // Update photos if provided
+    if (args.photoUrls !== undefined) {
+        await saveNewsPhotos(id, args.photoUrls);
     }
 
     return (data as NewsRecord) || null;
@@ -161,4 +173,89 @@ export async function uploadNewsImage(file: File): Promise<string> {
         .getPublicUrl(filePath);
 
     return publicUrl;
+}
+
+/**
+ * Upload multiple news images to Supabase Storage
+ */
+export async function uploadNewsImages(files: File[]): Promise<string[]> {
+    const uploadPromises = files.map(file => uploadNewsImage(file));
+    return Promise.all(uploadPromises);
+}
+
+/**
+ * Save news photos to the database
+ */
+export async function saveNewsPhotos(newsId: string, imageUrls: string[]): Promise<NewsPhotoRecord[]> {
+    const supabase = await getSupabaseServerClient();
+    const woredaId = await getCurrentUserWoredaId();
+
+    // Delete existing photos for this news item
+    await supabase
+        .from("news_photos")
+        .delete()
+        .eq("news_id", newsId);
+
+    if (imageUrls.length === 0) {
+        return [];
+    }
+
+    // Insert new photos with sort order
+    const photosToInsert = imageUrls.map((url, index) => ({
+        news_id: newsId,
+        woreda_id: woredaId,
+        image_url: url,
+        sort_order: index,
+    }));
+
+    const { data, error } = await supabase
+        .from("news_photos")
+        .insert(photosToInsert)
+        .select();
+
+    if (error) {
+        console.error("Error saving news photos:", error);
+        throw new Error(error.message);
+    }
+
+    return (data as NewsPhotoRecord[]) || [];
+}
+
+/**
+ * Get photos for a news item
+ */
+export async function getNewsPhotos(newsId: string): Promise<NewsPhotoRecord[]> {
+    const supabase = await getSupabaseServerClient();
+
+    const { data, error } = await supabase
+        .from("news_photos")
+        .select("*")
+        .eq("news_id", newsId)
+        .order("sort_order", { ascending: true });
+
+    if (error) {
+        console.error("Error fetching news photos:", error);
+        return [];
+    }
+
+    return (data as NewsPhotoRecord[]) || [];
+}
+
+/**
+ * Delete a news photo
+ */
+export async function deleteNewsPhoto(photoId: string): Promise<boolean> {
+    const supabase = await getSupabaseServerClient();
+
+    const { error } = await supabase
+        .from("news_photos")
+        .delete()
+        .eq("id", photoId);
+
+    if (error) {
+        console.error("Error deleting news photo:", error);
+        throw new Error(error.message);
+    }
+
+    return true;
 }

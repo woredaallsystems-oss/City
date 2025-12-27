@@ -2,35 +2,34 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { LeaderProfile } from "@/types";
+import { LeaderRecord } from "@/types";
 import { HiUser } from "react-icons/hi2";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface PrincipalMessageProps {
-    principal: LeaderProfile & { speech: string };
+    principal: LeaderRecord;
 }
 
 export function PrincipalMessage({ principal }: PrincipalMessageProps) {
     const t = useTranslations();
+    const locale = useLocale();
 
-    // Map member titles to translation keys
-    const getMemberTitle = (title: string) => {
-        if (title.includes('ኮሚቴ ሰብሳቢ') && !title.includes('ኮሚሽን ኮሚቴ')) {
-            return t('leaders.titleCommissionChair');
-        }
-        if (title.includes('ሰብሳቢ') && title.includes('ፅ/ቤት')) {
-            return t('leaders.titleOfficeChair');
-        }
-        if (title.includes('ፀሀፊና') || title.includes('Secretary')) {
-            return t('leaders.titleSecretary');
-        }
-        if (title.includes('የኢንስፔክሽን ዘርፍ') || title.includes('Inspection Sector')) {
-            return t('leaders.titleInspectionHead');
-        }
-        if (title.includes('ም/ሰብሳቢ') || title.includes('Deputy')) {
-            return t('leaders.titleDeputyChair');
-        }
-        return title;
+    const getName = () => {
+        if (locale === 'am') return principal.name_am || principal.name;
+        if (locale === 'or') return principal.name_or || principal.name;
+        return principal.name;
+    };
+
+    const getTitle = () => {
+        if (locale === 'am') return principal.title_am || principal.title;
+        if (locale === 'or') return principal.title_or || principal.title;
+        return principal.title;
+    };
+
+    const getSpeech = () => {
+        if (locale === 'am') return principal.speech_am || principal.speech;
+        if (locale === 'or') return principal.speech_or || principal.speech;
+        return principal.speech || t('leaders.principalSpeech');
     };
 
     return (
@@ -54,10 +53,10 @@ export function PrincipalMessage({ principal }: PrincipalMessageProps) {
                 >
                     {/* Left: Large Photo */}
                     <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-[40px] bg-gradient-to-br from-blue-100 to-purple-100 shadow-2xl">
-                        {principal.photo ? (
+                        {principal.photo_url ? (
                             <Image
-                                src={principal.photo}
-                                alt={principal.name}
+                                src={principal.photo_url}
+                                alt={getName()}
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -75,8 +74,8 @@ export function PrincipalMessage({ principal }: PrincipalMessageProps) {
 
                         {/* Name Overlay */}
                         <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                            <h2 className="text-3xl font-bold">{principal.name}</h2>
-                            <p className="text-lg font-medium opacity-90">{getMemberTitle(principal.title)}</p>
+                            <h2 className="text-3xl font-bold">{getName()}</h2>
+                            <p className="text-lg font-medium opacity-90">{getTitle()}</p>
                         </div>
                     </div>
 
@@ -88,11 +87,13 @@ export function PrincipalMessage({ principal }: PrincipalMessageProps) {
                                 <span className="relative inline-flex h-3 w-3 rounded-full bg-blue-500" />
                             </span>
                             <span className="text-sm font-bold uppercase tracking-wider">
-                                {t('leaders.administratorMessage')}
+                                {principal.category === 'principal' 
+                                    ? t('leaders.administratorMessage') 
+                                    : t('leaders.leaderMessage')}
                             </span>
                         </div>
                         <blockquote className="text-xl md:text-2xl font-medium leading-relaxed text-slate-700 lg:text-3xl">
-                            "{t('leaders.principalSpeech')}"
+                            "{getSpeech()}"
                         </blockquote>
                         <div className="pt-4">
                             <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto lg:mx-0" />
@@ -103,3 +104,4 @@ export function PrincipalMessage({ principal }: PrincipalMessageProps) {
         </section>
     );
 }
+

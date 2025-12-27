@@ -63,6 +63,7 @@ export default async function AdminNewsPage() {
                                         alt={item.title}
                                         fill
                                         className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-slate-400">
