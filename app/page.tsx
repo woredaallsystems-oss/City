@@ -6,11 +6,12 @@ import { CommissionMembers } from "@/components/sections/CommissionMembers";
 import { Footer } from "@/components/Footer";
 import { getLeaders } from "@/lib/leader-actions";
 import { publicEnv } from "@/lib/env";
+import type { LeaderRecord } from "@/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-    let allLeaders = [];
+    let allLeaders: LeaderRecord[] = [];
     try {
         allLeaders = await getLeaders();
     } catch (error) {
