@@ -3,6 +3,7 @@
 import { getSupabaseServerClient, getCurrentUserWoredaId } from "./supabaseServer";
 import { publicEnv } from "./env";
 import type { LeaderRecord } from "@/types";
+import { revalidatePath } from "next/cache";
 
 /**
  * Fetch all leaders for public display
@@ -87,7 +88,8 @@ export async function createLeader(args: Omit<LeaderRecord, "id" | "created_at" 
         throw new Error(error.message);
     }
 
-    // Note: Revalidation happens at the page level via revalidatePath
+    revalidatePath("/");
+    revalidatePath("/admin/leaders");
 
     return (data as LeaderRecord) || null;
 }
@@ -118,7 +120,8 @@ export async function updateLeader(
         throw new Error(error.message);
     }
 
-    // Note: Revalidation happens at the page level via revalidatePath
+    revalidatePath("/");
+    revalidatePath("/admin/leaders");
 
     return (data as LeaderRecord) || null;
 }

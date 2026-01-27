@@ -21,6 +21,8 @@ export function LeadersList({ leaders, deleteLeaderAction }: LeadersListProps) {
 
     const categoryLabels: Record<string, string> = {
         'principal': t('catPrincipal'),
+        'deputy': t('catDeputy'),
+        'secretary': t('catSecretary'),
         'commission-committee': t('catCommission'),
         'management': t('catManagement'),
         'work-leadership': t('catWorkList'),
@@ -143,7 +145,7 @@ export function LeadersList({ leaders, deleteLeaderAction }: LeadersListProps) {
                     <HiUser className="w-12 h-12 mx-auto text-slate-400 mb-2" />
                     <p className="text-lg font-medium">No leaders found</p>
                     <p className="text-sm">
-                        {selectedCategory !== 'all' 
+                        {selectedCategory !== 'all'
                             ? t('noMembersInCategory', { category: categoryLabels[selectedCategory] || selectedCategory })
                             : 'Add a new member to see them here.'}
                     </p>
@@ -155,7 +157,7 @@ export function LeadersList({ leaders, deleteLeaderAction }: LeadersListProps) {
 
 function LeaderCard({ leader, deleteLeaderAction }: { leader: LeaderRecord; deleteLeaderAction: (formData: FormData) => Promise<void> }) {
     const hasMessage = !!(leader.speech || leader.speech_am || leader.speech_or);
-    
+
     return (
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col relative">
             {hasMessage && (
@@ -166,10 +168,10 @@ function LeaderCard({ leader, deleteLeaderAction }: { leader: LeaderRecord; dele
             )}
             <div className="relative h-64 w-full bg-slate-100">
                 {leader.photo_url ? (
-                    <Image 
-                        src={leader.photo_url} 
-                        alt={leader.name} 
-                        fill 
+                    <Image
+                        src={leader.photo_url}
+                        alt={leader.name}
+                        fill
                         className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />

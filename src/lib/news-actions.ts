@@ -2,6 +2,7 @@
 
 import { getSupabaseServerClient, getCurrentUserWoredaId } from "./supabaseServer";
 import type { NewsRecord, NewsPhotoRecord } from "@/types";
+import { revalidatePath } from "next/cache";
 
 /**
  * Create a new news item
@@ -55,6 +56,8 @@ export async function createNewsItem(args: {
         await saveNewsPhotos(data.id, args.photoUrls);
     }
 
+    revalidatePath("/");
+    revalidatePath("/admin/news");
     return (data as NewsRecord) || null;
 }
 
@@ -122,6 +125,8 @@ export async function updateNewsItem(
         await saveNewsPhotos(id, args.photoUrls);
     }
 
+    revalidatePath("/");
+    revalidatePath("/admin/news");
     return (data as NewsRecord) || null;
 }
 
@@ -136,11 +141,8 @@ export async function deleteNewsItem(id: string): Promise<boolean> {
         .delete()
         .eq("id", id);
 
-    if (error) {
-        console.error("Error deleting news:", error);
-        throw new Error(error.message);
-    }
-
+    revalidatePath("/");
+    revalidatePath("/admin/news");
     return true;
 }
 

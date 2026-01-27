@@ -35,10 +35,11 @@ export function LeaderForm({ initialData, onSuccess }: LeaderFormProps) {
 
     const categories = [
         { id: 'principal', label: t('catPrincipal') },
+        { id: 'deputy', label: t('catDeputy') },
+        { id: 'secretary', label: t('catSecretary') },
         { id: 'commission-committee', label: t('catCommission') },
-        { id: 'management', label: t('catManagement') },
         { id: 'work-leadership', label: t('catWorkList') },
-        { id: 'monitoring-committees', label: t('catMonitoring') },
+        { id: 'management', label: t('catManagement') },
     ];
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

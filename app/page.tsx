@@ -33,10 +33,12 @@ export default async function Home() {
 
     // Group leaders by category, maintaining static order of categories we want
     const categoryOrder = [
+        'principal',
+        'deputy',
+        'secretary',
         'commission-committee',
-        'management',
         'work-leadership',
-        'monitoring-committees'
+        'management'
     ];
 
     const categories = categoryOrder.map(id => ({

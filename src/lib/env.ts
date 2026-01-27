@@ -10,7 +10,7 @@ export const publicEnv = {
   // Default to the woreda ID used in Supabase news records so published news
   // appears on the public homepage even without explicit env configuration.
   NEXT_PUBLIC_WOREDA_ID: process.env.NEXT_PUBLIC_WOREDA_ID ?? "prosperity-party-commission",
-  NEXT_PUBLIC_WOREDA_NAME: process.env.NEXT_PUBLIC_WOREDA_NAME ?? "የብልጽግና ፓርቲ የኢንስፔክሽንና የሥነምግባር ኮሚሽን",
+  NEXT_PUBLIC_WOREDA_NAME: process.env.NEXT_PUBLIC_WOREDA_NAME ?? "አዲስ አበባ ብልጽግና የኢንስፔክሽንና የስነ ምግባር ኮሚሽን ፅ/ቤት",
   NEXT_PUBLIC_WOREDA_LOGO_PATH:
     process.env.NEXT_PUBLIC_WOREDA_LOGO_PATH ?? "/logo.jpg",
   NEXT_PUBLIC_WOREDA_IMAGES_PREFIX:

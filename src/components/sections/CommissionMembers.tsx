@@ -20,6 +20,9 @@ export function CommissionMembers({ categories }: CommissionMembersProps) {
     // Map category IDs to translation keys
     const getCategoryTitle = (categoryId: string) => {
         const titleMap: Record<string, string> = {
+            "principal": t('admin.catPrincipal'),
+            "deputy": t('admin.catDeputy'),
+            "secretary": t('admin.catSecretary'),
             "commission-committee": t('leaders.commissionCommittee'),
             "management": t('leaders.managementMembers'),
             "work-leadership": t('leaders.workLeadership'),

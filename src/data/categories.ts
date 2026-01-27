@@ -3,9 +3,8 @@ import type { DocumentCategory } from "@/types";
 export const documentCategories: DocumentCategory[] = [
   {
     id: "000",
-    label: "የሰነዶች ቁጥር ኮዶች",
+    label: "መተዳደርያ ደንብ",
     subcategories: [
-      { id: "000", label: "መተዳደሪያ ደንብ", code: "000" },
       { id: "010", label: "የ2012 መተዳደሪያ ደንብ", code: "010" },
       { id: "020", label: "የ2014 መተዳደሪያ ደንብ", code: "020" },
       { id: "030", label: "የ2017 መተዳደሪያ ደንብ", code: "030" },
