@@ -30,7 +30,7 @@ export function Navbar() {
                         <span className="block text-xs text-slate-500">{t('common.officialPortal')}</span>
                         {/* Motto - Mobile */}
                         <span className="md:hidden block text-xs font-semibold bg-gradient-to-r from-[#4169E1] to-purple-600 bg-clip-text text-transparent mt-0.5">
-                            ጠንካራ ኮሚሽን ለጠንካራ ፖርቲ !
+                            ጠንካራ ኢንስፔክሽን ለጠንካራ ፖርቲ !
                         </span>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ export function Navbar() {
                 <div className="hidden md:flex items-center">
                     <div className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100/50">
                         <p className="text-sm font-bold bg-gradient-to-r from-[#4169E1] to-purple-600 bg-clip-text text-transparent">
-                            ጠንካራ ኮሚሽን ለጠንካራ ፖርቲ !
+                            ጠንካራ ኢንስፔክሽን ለጠንካራ ፖርቲ !
                         </p>
                     </div>
                 </div>

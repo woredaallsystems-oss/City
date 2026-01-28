@@ -24,10 +24,22 @@ export default async function Home() {
         return leader.speech || leader.speech_am || leader.speech_or;
     });
 
-    // Sort: principal first if exists, then by sort_order
+    // Sort: Follow the category priority, then sort_order
+    const categoryPriority: Record<string, number> = {
+        'principal': 1,
+        'deputy': 2,
+        'secretary': 3,
+        'commission-committee': 4,
+        'work-leadership': 5,
+        'management': 6
+    };
+
     const sortedLeadersWithMessages = leadersWithMessages.sort((a, b) => {
-        if (a.category === 'principal') return -1;
-        if (b.category === 'principal') return 1;
+        const priorityA = categoryPriority[a.category] || 99;
+        const priorityB = categoryPriority[b.category] || 99;
+        if (priorityA !== priorityB) {
+            return priorityA - priorityB;
+        }
         return a.sort_order - b.sort_order;
     });
 
